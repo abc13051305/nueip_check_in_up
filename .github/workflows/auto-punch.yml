@@ -1,0 +1,34 @@
+name: 自動打卡
+
+on:
+  schedule:
+    # 每天早上 8:30（台灣時間 +8，要減去 8 小時 → 00:30 UTC）
+    - cron: '30 0 * * *'
+    # 每天晚上 18:00（台灣時間 +8 → 10:00 UTC）
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+jobs:
+  punch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run auto punch
+        env:
+          NUEIP_COMPANY_CODE: ${{ secrets.NUEIP_COMPANY_CODE }}
+          NUEIP_ACCOUNT: ${{ secrets.NUEIP_ACCOUNT }}
+          NUEIP_PASSWORD: ${{ secrets.NUEIP_PASSWORD }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python login.py
