@@ -45,9 +45,11 @@ def notify_discord(webhook_url, message):
 
 # ========== 啟動瀏覽器 ==========
 options = Options()
-# options.add_argument('--headless')  # 測試時可先關閉，看到畫面
+options.add_argument('--headless')
 options.add_argument('--no-sandbox')
+options.add_argument('--disable-gpu')
 options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--user-data-dir=/tmp/chrome-user-data')
 options.add_experimental_option("prefs", {
     "profile.default_content_setting_values.geolocation": 1
 })
