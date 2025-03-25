@@ -2,10 +2,8 @@ name: 自動打卡
 
 on:
   schedule:
-    # 每天早上 8:30（台灣時間 +8，要減去 8 小時 → 00:30 UTC）
-    - cron: '30 0 * * *'
-    # 每天晚上 18:00（台灣時間 +8 → 10:00 UTC）
-    - cron: '30 10 * * *'
+    - cron: '30 8 * * *'
+    - cron: '00 18 * * *'
   workflow_dispatch:
 
 jobs:
