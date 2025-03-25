@@ -16,7 +16,7 @@ ACCOUNT = os.getenv("NUEIP_ACCOUNT")
 PASSWORD = os.getenv("NUEIP_PASSWORD")
 DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 
-LATITUDE = 23.008379077960313  # 新一軍食堂
+LATITUDE = 23.008379077960313
 LONGITUDE = 120.22051266925577
 
 # ========== 工具方法 ==========
@@ -43,7 +43,27 @@ def notify_discord(webhook_url, message):
     except Exception as e:
         print(f"❌ 發送 Discord 通知失敗：{e}")
 
-# ========== 啟動瀏覽器 ==========
+def is_today_holiday():
+    year = datetime.now().year
+    today = datetime.now().strftime("%Y%m%d")
+    url = f"https://cdn.jsdelivr.net/gh/ruyut/TaiwanCalendar/data/{year}.json"
+    try:
+        res = requests.get(url)
+        if res.status_code != 200:
+            print(f"⚠️ 無法取得政府公休日資料，狀態碼：{res.status_code}")
+            return False
+        for day in res.json():
+            if day["date"] == today and day["isHoliday"]:
+                print(f"🎌 今天是休假日（{day['description']}），不進行打卡。")
+                return True
+        return False
+    except Exception as e:
+        print(f"❌ 查詢公休日發生錯誤：{e}")
+        return False
+
+if is_today_holiday():
+    exit(0)
+    
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--no-sandbox')
