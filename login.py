@@ -22,14 +22,13 @@ LONGITUDE = 120.22051266925577
 # ========== 工具方法 ==========
 def get_punch_type():
     now = datetime.now().time()
-    morning = datetime.strptime("10:00", "%H:%M").time()
-    evening = datetime.strptime("17:00", "%H:%M").time()
-    if now < morning:
+    morning = datetime.strptime("08:00", "%H:%M").time()
+    evening = datetime.strptime("18:00", "%H:%M").time()
+
+    if now >= morning and now < evening:
         return "上班"
-    elif now >= evening:
-        return "下班"
     else:
-        return "上班"
+        return "下班"
 
 def notify_discord(webhook_url, message):
     try:
