@@ -22,8 +22,8 @@ LONGITUDE = 120.22051266925577
 # ========== 工具方法 ==========
 def get_punch_type():
     now = datetime.now().time()
-    morning = datetime.strptime("08:30", "%H:%M").time()
-    evening = datetime.strptime("18:00", "%H:%M").time()
+    morning = datetime.strptime("10:00", "%H:%M").time()
+    evening = datetime.strptime("17:00", "%H:%M").time()
     if now < morning:
         return "上班"
     elif now >= evening:
